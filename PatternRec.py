@@ -302,10 +302,10 @@ def graphRawFX():
     fig.savefig('chart')
 
 def Main():
-    looptest(31, 2)
-    ##patternStorage()
-    ##currentPattern()
-    ##patternRecognition()
+    ##looptest(31, 2)
+    patternStorage()
+    currentPattern()
+    patternRecognition()
     
 
 ##graphRawFX()
