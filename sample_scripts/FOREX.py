@@ -1,3 +1,6 @@
+#Test script that grabs data from Yahoo Financials API for certain stocks.
+#DO NOT DELETE!!!
+
 import time
 import datetime
 import numpy as np

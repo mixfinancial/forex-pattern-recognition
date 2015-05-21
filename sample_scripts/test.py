@@ -1,3 +1,6 @@
+#Trash file for storing code to test.
+#DO NOT DELETE!!!
+
 
 def percentChange(startPoint, currentPoint):
     return ((float(currentPoint)-startPoint)/startPoint)*100.00
