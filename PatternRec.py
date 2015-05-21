@@ -273,7 +273,7 @@ def patternRecognition():
                 plt.plot(xp, eachPattern)
                 plt.show()
                 matplotlib.use('Agg')
-                fig.savefig('charts/chart')
+                fig.savefig('charts/PatternRec')
 
 
 def graphRawFX():
@@ -299,7 +299,7 @@ def graphRawFX():
     plt.show()
     ##Use b/c Cloud9 is a pain in the ass
     matplotlib.use('Agg')
-    fig.savefig('chart')
+    fig.savefig('charts/PatternRec')
 
 def Main():
     ##looptest(31, 2)

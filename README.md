@@ -10,7 +10,6 @@ This project requires the following Python Libraries
 2. python-dateutil==2.2
 
 
-
-
 ##Point of Contact
+
 admin@mixfin.com
