@@ -273,7 +273,7 @@ def patternRecognition():
                 plt.plot(xp, eachPattern)
                 plt.show()
                 matplotlib.use('Agg')
-                fig.savefig('chart')
+                fig.savefig('charts/chart')
 
 
 def graphRawFX():
