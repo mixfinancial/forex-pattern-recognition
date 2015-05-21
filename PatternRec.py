@@ -12,7 +12,7 @@ np.seterr(over='ignore')
 
 
 totalStart = time.time()
-date, bid, ask = np.loadtxt('GBPUSD1d.txt', unpack=True,
+date, bid, ask = np.loadtxt('data/GBPUSD1d.txt', unpack=True,
                             delimiter=',',
                             converters={0:mdates.strpdate2num('%Y%m%d%H%M%S')})
 
