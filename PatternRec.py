@@ -12,12 +12,26 @@ np.seterr(over='ignore')
 
 
 totalStart = time.time()
+
+
+
+## Loads dbGetForexRatesCSV.csv file int date, rate, bid, and ask objects
 date, bid, ask = np.loadtxt('data/GBPUSD1d.txt', unpack=True,
                             delimiter=',',
                             converters={0:mdates.strpdate2num('%Y%m%d%H%M%S')})
 
 
+## Commented out in preparation for the new forex_rates API code
+##date, rate, bid, ask = np.loadtxt('data/dbGetForexRatesCSV.csv', unpack=True,
+##                            delimiter=',',
+##                            converters={0:mdates.strpdate2num('%Y-%m-%dT%H:%M:%S.000Z')})
+
+
+
+
+##Creates an avgLine Array that for each bid and ask, gets the average.
 avgLine = ((bid+ask)/2)
+
 patternAr = []
 performanceAr = []
 patforRec = []
@@ -37,6 +51,8 @@ def percentChange(startPoint, currentPoint):
 
 def looptest(y,amt):
     patStartTime = time.time()
+
+    ##Get length of array -60
     x = len(avgLine)-60
     n = 1
     m = amt
@@ -57,18 +73,23 @@ def looptest(y,amt):
     ##y += 1
     ##patEndTime = time.time()
     ##print 'Pattern Storage Took:', patEndTime - patStartTime, 'seconds for', len(patternAr) ,'records'
+   
     
     
     
-    
-    
+##This function processes the data from the CSV file to calculate the percent change and and future outcome measures    
 def patternStorage():
+    ## Getting Current Unix Time
     patStartTime = time.time()
+
+    ##Get length of array - 60
     x = len(avgLine)-60
+    ##We are skipping the first 30
     y = 31
     print x, y
     while y < x:
         pattern =[]
+        ## Grabbing the percent change for each tick for the last 30 minutes for each Y
         p1 = percentChange(avgLine[y-30],avgLine[y-29])
         p2 = percentChange(avgLine[y-30],avgLine[y-28])
         p3 = percentChange(avgLine[y-30],avgLine[y-27])
@@ -102,15 +123,24 @@ def patternStorage():
         p29 = percentChange(avgLine[y-30],avgLine[y-1])
         p30 = percentChange(avgLine[y-30],avgLine[y])
         
+        ## Splicing the avgLine array to get indexes between (y+20) and (y+30)
         outcomeRange = avgLine[y+20:y+30]
+
+        ##grab current avgLine
         currentPoint= avgLine[y]
+
         try:
+            ##Get the sum of outcomeRanges which is (y+20) to (y+30) and devides that by the number of elements in the array
             avgOutcome = reduce(lambda x, y: x+y, outcomeRange) / len(outcomeRange)
+
         except Exception, e:
             print str(e)
             avgOutcome = 0
         
-        futureOutcome =percentChange(currentPoint, avgOutcome)
+        ##Percent difference between the current point and the average outcome of the +20 - +30 points.
+        futureOutcome = percentChange(currentPoint, avgOutcome)
+
+        #Appending Results to our arrays for plotting
         pattern.append(p1)
         pattern.append(p2)
         pattern.append(p3)
@@ -144,15 +174,16 @@ def patternStorage():
         pattern.append(p29)
         pattern.append(p30)
         patternAr.append(pattern)
-        performanceAr.append(pattern)
+        performanceAr.append(futureOutcome)
 
         y += 1
     patEndTime = time.time()
     print 'Pattern Storage Took:', patEndTime - patStartTime, 'seconds for', len(patternAr) ,'records'
     patternRecognition()
 
-
+## currentPattern grabs the percent change between the 31st record against the prior 30.
 def currentPattern():
+    # First we populate an array that has the percent change between the first 30 objects of the avgLine array
     cp1 = percentChange(avgLine[-31], avgLine[-30])
     cp2 = percentChange(avgLine[-31], avgLine[-29])
     cp3 = percentChange(avgLine[-31], avgLine[-28])
@@ -186,6 +217,7 @@ def currentPattern():
     cp29 = percentChange(avgLine[-31], avgLine[-2])
     cp30 = percentChange(avgLine[-31], avgLine[-1])
     
+
     patforRec.append(cp1)
     patforRec.append(cp2)
     patforRec.append(cp3)
@@ -220,6 +252,8 @@ def currentPattern():
     patforRec.append(cp30)
     
     print 'Pat:::', patforRec
+
+
 
 def patternRecognition():
     ##patforRec = []
@@ -284,7 +318,8 @@ def graphRawFX():
     ax1.plot(date,bid)
     ax1.plot(date,ask)
     plt.gca().get_yaxis().get_major_formatter().set_useOffset(False)
-        
+    
+    
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M:%S'))
     for label in ax1.xaxis.get_ticklabels():
         label.set_rotation(45)
@@ -305,13 +340,9 @@ def Main():
     ##looptest(31, 2)
     patternStorage()
     currentPattern()
-    patternRecognition()
-    
+    ##patternRecognition()
+    graphRawFX()
 
-##graphRawFX()
-##patternStorage()
-##currentPattern()
-##patternRecognition()
 Main()
 totalTime = time.time() - totalStart
 print 'Entire Processing time took:', totalTime, 'seconds'
