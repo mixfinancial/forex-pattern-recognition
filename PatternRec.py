@@ -296,8 +296,9 @@ def patternRecognition():
             howsim = (sim1+sim2+sim3+sim4+sim5+sim6+sim7+sim8+sim9+sim10+
                       sim11+sim12+sim13+sim14+sim15+sim16+sim17+sim18+sim19+sim20+
                       sim21+sim22+sim23+sim24+sim25+sim26+sim27+sim28+sim29+sim30)/30.00
-        
-            if howsim >40:
+            
+
+            if howsim > 40:
                 patdex = patternAr.index(eachPattern)
                 print ' ---------------------------'
                 print 'predictedoutcome' , performanceAr[patdex]
@@ -306,8 +307,8 @@ def patternRecognition():
                 plt.plot(xp, patforRec)
                 plt.plot(xp, eachPattern)
                 plt.show()
-                matplotlib.use('Agg')
-                fig.savefig('charts/PatternRec')
+                ##matplotlib.use('Agg')
+                ##fig.savefig('charts/PatternRec')
 
 
 def graphRawFX():
@@ -340,8 +341,8 @@ def Main():
     ##looptest(31, 2)
     patternStorage()
     currentPattern()
-    ##patternRecognition()
-    graphRawFX()
+    patternRecognition()
+    ##graphRawFX()
 
 Main()
 totalTime = time.time() - totalStart
