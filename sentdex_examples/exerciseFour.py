@@ -8,6 +8,9 @@ from matplotlib import style
 style.use("ggplot")
 
 
+def percentChange(startPoint, currentPoint):
+    return ((currentPoint - startPoint) / startPoint) * 100
+
 
 def graphRawFX():
     date,bid,ask = np.loadtxt('GBPUSD1d.txt', unpack=True,

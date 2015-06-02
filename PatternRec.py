@@ -32,15 +32,19 @@ date, bid, ask = np.loadtxt('data/GBPUSD1d.txt', unpack=True,
 ##Creates an avgLine Array that for each bid and ask, gets the average.
 avgLine = ((bid+ask)/2)
 
+## Every pattern is stored in the pattern array
 patternAr = []
+
+## As we make the pattern, we store the outcome of pattern recognition here
 performanceAr = []
+
 patforRec = []
 
 
 ## Very simple difference based on the input values 
 def percentChange(startPoint, currentPoint):
     try:
-      x = ((float(currentPoint)-startPoint)/startPoint)*100.00
+      x = ((float(currentPoint)-startPoint)/abs(startPoint))*100.00
       ## Error handling since Numpy bitches about NAN
       if x == 0.0:
             return 0.0000000001
@@ -82,9 +86,10 @@ def patternStorage():
     ## Getting Current Unix Time
     patStartTime = time.time()
 
-    ##Get length of array - 60
-    x = len(avgLine)-60
-    ##We are skipping the first 30
+    ##Get length of array - 30
+    x = len(avgLine)-30
+
+    ##We are skipping the first 30 because our pattern is 30 ticks long
     y = 31
     print x, y
     while y < x:
@@ -129,8 +134,9 @@ def patternStorage():
         ##grab current avgLine
         currentPoint= avgLine[y]
 
+        ##In order to avoid a negative infinity percent change, we gotta do this....
         try:
-            ##Get the sum of outcomeRanges which is (y+20) to (y+30) and devides that by the number of elements in the array
+            ##Get the sum of outcomeRanges which is (y+20) to (y+30) and divides that by the number of elements in the array
             avgOutcome = reduce(lambda x, y: x+y, outcomeRange) / len(outcomeRange)
 
         except Exception, e:
