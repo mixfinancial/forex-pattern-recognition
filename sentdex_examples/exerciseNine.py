@@ -96,6 +96,7 @@ def patternStorage():
 
 def currentPattern():
 
+    ## CP stands for Current Pattern
     cp1 = percentChange(avgLine[-11], avgLine[-10])
     cp2 = percentChange(avgLine[-11], avgLine[-9])
     cp3 = percentChange(avgLine[-11], avgLine[-8])
@@ -143,6 +144,7 @@ def patternRecognition():
         if howSim > 70:
             patdex = patternAr.index(eachPattern)
 
+
             print '####################'
             print '####################'
             print patForRec
@@ -151,6 +153,11 @@ def patternRecognition():
             print eachPattern
             print '--------------------'
             print 'predicted outcome', performanceAr[patdex]
+            xp = [1,2,3,4,5,6,7,8,9,10]
+            fig = plt.figure()
+            plt.plot(xp, patForRec)
+            plt.plot(xp, eachPattern)
+            plt.show()
             print '####################'
             print '####################'
 
