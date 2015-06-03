@@ -7,6 +7,9 @@ import time as time
 from numpy import loadtxt
 from matplotlib import style
 
+
+
+
 totalStart = time.time()
 
 date,bid,ask = np.loadtxt('GBPUSD1d.txt', unpack=True,
@@ -48,6 +51,8 @@ def patternStorage():
 
     while y < x:
         pattern = [];
+
+
         p1 = percentChange(avgLine[y - 10], avgLine[y-9])
         p2 = percentChange(avgLine[y - 10], avgLine[y-8])
         p3 = percentChange(avgLine[y - 10], avgLine[y-7])
